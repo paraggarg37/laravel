@@ -8,5 +8,7 @@ class Shop extends Model
 {
     //
 
+
+    protected $table = 'shop';
     protected $primaryKey = 'shop_id';
 }
