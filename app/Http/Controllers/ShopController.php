@@ -14,7 +14,7 @@ class ShopController extends Controller
      */
     public function index()
     {
-        return redirect('user/login');
+        return 'here';
     }
 
 
@@ -48,8 +48,7 @@ class ShopController extends Controller
      */
     public function show(Shop $shop)
     {
-        //
-        return 'aasasa';
+
     }
 
     /**
