@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost/shop/shop'),
+    'url' => env('APP_URL', 'https://rocky-beach-72303.herokuapp.com'),
 
     /*
     |--------------------------------------------------------------------------
