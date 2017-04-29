@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Shop;
+use App\Images;
+use App\Product;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Log;
 
-class ShopController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,16 +17,9 @@ class ShopController extends Controller
      */
     public function index()
     {
-
-        // return Shop::all()->toJson();
-
-        $shops = Shop::with(['products','products.category','products.images' => function ($query) {
-            $query->orderBy('created_at', 'desc');
-        }])->get();
-
-        return $shops->toJson();
+        //
+        return Product::all()->toJson();
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -44,39 +39,43 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        //
 
         $data = $request->all();
 
-        $shop = Shop::create($data);
 
-        Log::info('Showing user profile for user: ' . $shop);
+        if (isset($data['images'])) {
+            $images_data = $data['images'];
+            unset($data['images']);
 
-        return $shop->toJson();
+            $product = Product::create($data);
+            $images = Images::find($images_data);
+            $product->images()->saveMany($images);
+        } else {
+            $product = Product::create($data);
+        }
 
+
+        return $product->toJson();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Shop $shop
+     * @param  \App\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Shop $shop)
+    public function show(Product $product)
     {
-        Log::info('Showing user profile for user: ' . $shop->shop_id);
-
-        //$shop->load('products','products.category','products.images');
-        return $shop->toJson();
+        return $product->toJson();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Shop $shop
+     * @param  \App\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Shop $shop)
+    public function edit(Product $product)
     {
         //
     }
@@ -85,27 +84,27 @@ class ShopController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Shop $shop
+     * @param  \App\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Shop $shop)
+    public function update(Request $request, Product $product)
     {
-        //
-        $data = $request->all();
-        $shop->update($data);
-        Log::info('Updating Shop ' . $shop);
-        $shop->save();
 
-        return $shop->toJson();
+        $data = $request->all();
+        $product->update($data);
+        Log::info('Updating product ' . $product);
+        $product->save();
+
+        return $product->toJson();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Shop $shop
+     * @param  \App\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Shop $shop)
+    public function destroy(Product $product)
     {
         //
     }

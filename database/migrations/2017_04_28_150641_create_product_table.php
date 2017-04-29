@@ -22,6 +22,8 @@ class CreateProductTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+
     }
 
     /**
@@ -32,5 +34,6 @@ class CreateProductTable extends Migration
     public function down()
     {
         Schema::dropIfExists('product');
+
     }
 }

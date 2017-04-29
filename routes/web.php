@@ -17,3 +17,12 @@ Route::get('/', function () {
 
 
 Route::resource('shop', 'ShopController');
+Route::resource('image', 'ImageController');
+
+Route::resource('product', 'ProductController');
+Route::resource('category', 'CategoryController');
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
