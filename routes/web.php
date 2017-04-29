@@ -26,3 +26,12 @@ Route::resource('category', 'CategoryController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => ['api'],'prefix' => 'api'], function () {
+
+    Route::post('register', 'AuthController@register');
+    Route::post('login', 'AuthController@login');
+    Route::group(['middleware' => 'jwt-auth'], function () {
+        Route::post('get_user_details', 'AuthController@get_user_details');
+    });
+});
