@@ -18,9 +18,9 @@ class ShopController extends Controller
 
         // return Shop::all()->toJson();
 
-        $shops = Shop::with(['products','products.category','products.images' => function ($query) {
-            $query->orderBy('created_at', 'desc');
-        }])->get();
+        $shops = Shop::has('category')->get();
+
+
 
         return $shops->toJson();
     }
