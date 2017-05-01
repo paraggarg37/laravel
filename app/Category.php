@@ -10,4 +10,10 @@ class Category extends Model
     protected $table = 'category';
     protected $primaryKey = 'category_id';
     protected $guarded = [];
+
+    /*protected $with=['products'];
+
+    public function products(){
+        return $this->belongsTo('App\Product','category_id','product_category_id');
+    }*/
 }

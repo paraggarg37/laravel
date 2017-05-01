@@ -14,8 +14,11 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    protected $with = ['shop'];
+
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','shop_id'
     ];
 
     /**
@@ -24,6 +27,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','shop_id','role','created_at','updated_at'
     ];
+
+    public function shop()
+    {
+        return $this->hasOne('App\Shop','shop_id','shop_id');
+    }
 }

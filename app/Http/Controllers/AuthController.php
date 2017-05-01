@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Shop;
 use App\User;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -13,13 +14,39 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
+        Log::info("register request");
         $data = $request->all();
 
-        return User::create([
+
+        // $shop = Shop::where('shop_id', 1)->first();
+
+        $shop = Shop::create([
+            'shop_name' => $data['shop_name'],
+        ]);
+
+        Log::info("shop created " . $shop['shop_id']);
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'shop_id' => $shop['shop_id'],
             'password' => bcrypt($data['password']),
         ]);
+
+        Log::info("user created" . $user);
+
+        $user->load('shop');
+
+        return $user;
+
+        /*    $data = $request->all();
+
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+            ]);*/
+
 
     }
 
@@ -36,7 +63,7 @@ class AuthController extends Controller
     {
         $input = $request->all();
         //$user = JWTAuth::toUser($request->header('X-Authorization'));
-        return response()->json(['result' => $request->attributes]);
+        return response()->json($request->attributes['user']);
     }
 
 }
