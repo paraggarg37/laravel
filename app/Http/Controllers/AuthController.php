@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Shop;
 use App\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\Request;
@@ -20,22 +21,37 @@ class AuthController extends Controller
 
         // $shop = Shop::where('shop_id', 1)->first();
 
-        $shop = Shop::create([
-            'shop_name' => $data['shop_name'],
-        ]);
+        try {
+            if (isset($data['shop_name'])) {
+                $shop = Shop::create([
+                    'shop_name' => $data['shop_name'],
+                ]);
 
-        Log::info("shop created " . $shop['shop_id']);
 
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'shop_id' => $shop['shop_id'],
-            'password' => bcrypt($data['password']),
-        ]);
+                Log::info("shop created " . $shop['shop_id']);
 
-        Log::info("user created" . $user);
+                $user = User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'shop_id' => $shop['shop_id'],
+                    'password' => bcrypt($data['password']),
+                ]);
 
-        $user->load('shop');
+                Log::info("user created" . $user);
+
+                $user->load('shop');
+            } else {
+
+                $user = User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => bcrypt($data['password']),
+                ]);
+
+            }
+        }catch (QueryException $e){
+            return response()->json(['message' => 'User already exists.', 'error' => true], 400);
+        }
 
         return $user;
 
@@ -54,15 +70,13 @@ class AuthController extends Controller
     {
         $input = $request->all();
         if (!$token = JWTAuth::attempt($input)) {
-            return response()->json(['result' => 'wrong email or password.']);
+            return response()->json(['message' => 'wrong email or password.', 'error' => true], 401);
         }
         return response()->json(['result' => $token]);
     }
 
     public function get_user_details(Request $request)
     {
-        $input = $request->all();
-        //$user = JWTAuth::toUser($request->header('X-Authorization'));
         return response()->json($request->attributes['user']);
     }
 

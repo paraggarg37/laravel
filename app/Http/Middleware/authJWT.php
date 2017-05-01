@@ -3,6 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use League\Flysystem\Exception;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
@@ -19,23 +23,31 @@ class authJWT
     {
         try {
             $user = JWTAuth::toUser($request->header('X-Authorization'));
-            $request->attributes = ['user'=>$user];
+            $request->attributes = ['user' => $user];
 
+        } catch (TokenExpiredException $e) {
+
+            return response()->json([
+                'message' => 'Token expired.',
+                'error' => true,
+            ], 401);
+
+        } catch (TokenInvalidException $e) {
+            return response()->json([
+                'message' => 'Invalid Credentials.',
+                'error' => true,
+            ], 404);
+        } catch (JWTException $e) {
+            return response()->json([
+                'message' => 'Token absent.',
+                'error' => true,
+            ], 404);
         } catch (Exception $e) {
-            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                 return Response::json([
-                    'message' => 'Invalid Credentials.',
-                    'error' => true,
-                ], 404);
-            } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                return Response::json([
-                    'message' => 'Token expired',
-                    'error' => true,
-                ], 404);
-            } else {
-                return response()->json(['error' => 'Something is wrong']);
-            }
+            return response()->json([
+                'message' => 'Something went wrong.',
+                'error' => true,
+            ], 404);
         }
-        return $next($request,$user);
+        return $next($request, $user);
     }
 }
