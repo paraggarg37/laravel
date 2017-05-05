@@ -49,7 +49,7 @@ class AuthController extends Controller
                 ]);
 
             }
-        }catch (QueryException $e){
+        } catch (QueryException $e) {
             return response()->json(['message' => 'User already exists.', 'error' => true], 400);
         }
 
@@ -72,7 +72,9 @@ class AuthController extends Controller
         if (!$token = JWTAuth::attempt($input)) {
             return response()->json(['message' => 'wrong email or password.', 'error' => true], 401);
         }
-        return response()->json(['token' => $token]);
+        $user = JWTAuth::toUser($token);
+
+        return response()->json(['token' => $token, 'user' => $user]);
     }
 
     public function get_user_details(Request $request)
