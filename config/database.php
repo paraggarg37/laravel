@@ -49,6 +49,7 @@ return [
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
+            'options' => array(PDO::MYSQL_ATTR_MAX_BUFFER_SIZE => 16777216),
             'prefix' => '',
             'strict' => true,
             'engine' => null,
