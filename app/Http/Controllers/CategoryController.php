@@ -45,6 +45,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+
+        Log::info('Creating category ..' . $request);
+
         $data = $request->all();
         $model = Category::create($data);
         return $model->toJson();
