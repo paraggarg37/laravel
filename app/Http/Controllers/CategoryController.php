@@ -56,6 +56,7 @@ class CategoryController extends Controller
         $model = Category::create([
             'category_name' => $data['category_name'],
             'category_description' => $data['category_description'],
+            'category_image' => mysql_real_escape_string($data['category_image']),
             'category_shop_id' => $data['category_shop_id']
         ]);
 
