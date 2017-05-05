@@ -52,7 +52,13 @@ class CategoryController extends Controller
         Log::info('Creating category name ..' . $data['category_name']);
         Log::info('Creating category name ..' . $data['category_image']);
 
-        $model = Category::create($data);
+
+        $model = Category::create([
+            'category_name' => $data['category_name'],
+            'category_description' => $data['category_description'],
+            'category_shop_id' => $data['category_shop_id']
+        ]);
+
         return $model->toJson();
     }
 
