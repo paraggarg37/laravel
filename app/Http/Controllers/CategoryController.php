@@ -46,9 +46,12 @@ class CategoryController extends Controller
     {
         //
 
-        Log::info('Creating category ..' . $request);
+        Log::info('Creating category ..');
 
         $data = $request->all();
+        Log::info('Creating category name ..' . $data['category_name']);
+        Log::info('Creating category name ..' . $data['category_image']);
+
         $model = Category::create($data);
         return $model->toJson();
     }
