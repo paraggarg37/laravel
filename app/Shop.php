@@ -18,7 +18,7 @@ class Shop extends Model
     protected $table = 'shop';
     protected $primaryKey = 'shop_id';
     protected $guarded = [];
-    protected $with = ['products','products.category','products.images','category','category.products'];
+    protected $with = ['category','category.products'];
 
 
     public function products()
