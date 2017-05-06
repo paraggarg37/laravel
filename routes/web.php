@@ -28,16 +28,15 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
+Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'api'], function () {
 
-Route::group(['middleware' => 'cors'], function () {
-
-    Route::group(['middleware' => ['api','cors'], 'prefix' => 'api'], function () {
-
-        Route::post('register', 'AuthController@register');
-        Route::post('login', 'AuthController@login');
-        Route::group(['middleware' => 'jwt-auth'], function () {
-            Route::get('user', 'AuthController@get_user_details');
-        });
+    Route::post('register', 'AuthController@register');
+    Route::post('login', 'AuthController@login');
+    Route::group(['middleware' => 'jwt-auth'], function () {
+        Route::get('user', 'AuthController@get_user_details');
     });
 
+    Route::get('category/image/{id}', 'CategoryController@getImage');
+
 });
+

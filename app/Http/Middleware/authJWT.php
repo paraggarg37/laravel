@@ -22,6 +22,7 @@ class authJWT
     public function handle($request, Closure $next)
     {
         try {
+
             $user = JWTAuth::toUser($request->header('X-Authorization'));
             $request->attributes = ['user' => $user];
 

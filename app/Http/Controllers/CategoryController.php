@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 
 class CategoryController extends Controller
@@ -71,8 +72,20 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $category->load('products');
-        return $category->toJson();
+        //$category->load('products');
+
+        Log::info("category image is " . $category->category_image);
+        $options = app('request')->header('accept-charset') == 'utf-8' ? JSON_UNESCAPED_UNICODE : null;
+        return response()->json($category, 200, [],$options);
+    }
+
+    public function getImage($index)
+    {
+        $category = Category::find($index);
+        $image = base64_decode($category->getOriginal('category_image'));
+        $response = Response::make($image, 200);
+        $response->header('Content-Type', 'image/png');
+        return $response;
     }
 
     /**
