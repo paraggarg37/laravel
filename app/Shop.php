@@ -18,8 +18,14 @@ class Shop extends Model
     protected $table = 'shop';
     protected $primaryKey = 'shop_id';
     protected $guarded = [];
-    protected $with = ['category','category.products'];
+    protected $with = ['category','category.products','delivery_locations'];
 
+
+
+    public function delivery_locations()
+    {
+        return $this->hasMany('App\ShopDeliveryLocations','shop_id','shop_id');
+    }
 
     public function products()
     {
