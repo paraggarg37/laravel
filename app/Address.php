@@ -11,7 +11,7 @@ class Address extends Model
 
 
 
-
+    protected $guarded = [];
     protected $dates = ['deleted_at'];
     protected $primaryKey = 'id';
     protected $table = 'address';

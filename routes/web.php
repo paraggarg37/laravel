@@ -35,7 +35,8 @@ Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'api'], function () {
 
     Route::resource('product', 'ProductController');
     Route::resource('category', 'CategoryController');
-    
+
+    Route::resource('order', 'OrdersController');
 
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
