@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e 
 
-echo "Migrating database 'php artisan migrate --force'..."
+echo "Migrating database 'php artisan migrate '..."
 php artisan migrate
