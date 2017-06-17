@@ -76,7 +76,7 @@ class CategoryController extends Controller
 
         Log::info("category image is " . $category->category_image);
         $options = app('request')->header('accept-charset') == 'utf-8' ? JSON_UNESCAPED_UNICODE : null;
-        return response()->json($category, 200, [],$options);
+        return response()->json($category, 200, [], $options);
     }
 
     public function getImage($index)
@@ -109,6 +109,20 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $data = $request->all();
+
+        if (array_key_exists('category_image', $data)) {
+            Log::info("caetgory image is set");
+            if (substr($data['category_image'], 0, 4) === "http") {
+                Log::info("caetgory image has http");
+                unset($data['category_image']);
+            } else {
+                Log::info("caetgory image doesn't have http");
+            }
+        } else {
+            Log::info("caetgory image is not set");
+        }
+        Log::info(print_r($data, true));
+
         $category->update($data);
         Log::info('Updating product ' . $category);
         $category->save();
