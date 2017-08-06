@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Images;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class ImageController extends Controller
 {
@@ -48,10 +49,15 @@ class ImageController extends Controller
      * @param  \App\Images $images
      * @return \Illuminate\Http\Response
      */
-    public function show(Images $images)
+    public function show(Images $image)
     {
 
-        return $images->toJson();
+
+        $image = base64_decode($image->getOriginal('image'));
+        $response = Response::make($image, 200);
+        $response->header('Content-Type', 'image/png');
+        return $response;
+
     }
 
     /**
@@ -72,15 +78,14 @@ class ImageController extends Controller
      * @param  \App\Images $images
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Images $images)
+    public function update(Request $request, Images $image)
     {
-
         $data = $request->all();
-        $images->update($data);
-        Log::info('Updating Image ' . $images);
-        $images->save();
+        $image->update($data);
+        Log::info('Updating Image ' . $image);
+        $image->save();
 
-        return $images->toJson();
+        return $image->toJson();
     }
 
     /**

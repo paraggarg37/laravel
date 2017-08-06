@@ -16,20 +16,14 @@ Route::get('/', function () {
 });
 
 
-
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-
-
-
 Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'api'], function () {
 
-
-
+    Route::get('shop/summary', 'ShopController@getSummary');
     Route::resource('shop', 'ShopController');
     Route::resource('image', 'ImageController');
 
@@ -45,6 +39,11 @@ Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'api'], function () {
     });
 
     Route::get('category/image/{id}', 'CategoryController@getImage');
+
+
+    Route::get('shop/{id}/category', ['uses' => 'ShopController@getCategory', 'parameters' => [
+        'shop' => 'id'
+    ]]);
 
 });
 

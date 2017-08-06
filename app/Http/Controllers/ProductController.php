@@ -91,9 +91,39 @@ class ProductController extends Controller
     {
 
         $data = $request->all();
+
+        if (isset($data['images'])) {
+            $images_data = $data['images'];
+            unset($data['images']);
+
+            $images = Images::find($images_data);
+            $all_images = $product->images()->getResults();
+
+
+
+            foreach ($all_images as $i) {
+
+                Log::info("id is " . $i->id);
+
+                if (in_array($i->id, $images_data)) {
+
+                } else {
+                    Log::info("deleting" . $i);
+                    $i->delete();
+                }
+            }
+
+            $product->images()->saveMany($images);
+        }
+
+
         $product->update($data);
         Log::info('Updating product ' . $product);
+
+
         $product->save();
+
+
 
         return $product->toJson();
     }

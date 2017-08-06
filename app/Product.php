@@ -13,19 +13,30 @@ class Product extends Model
     protected $dates = ['deleted_at'];
 
 
-    protected $hidden = array('created_at', 'updated_at','deleted_at');
+    protected $hidden = array('created_at', 'updated_at', 'deleted_at');
     protected $table = 'product';
     protected $primaryKey = 'product_id';
     protected $guarded = [];
-    protected $with = ['category','images'];
+    protected $with = ['category', 'images'];
 
     public function category()
     {
-        return $this->hasOne('App\Category','category_id','product_category_id');
+        return $this->hasOne('App\Category', 'category_id', 'product_category_id');
     }
 
     public function images()
     {
         return $this->morphMany('App\Images', 'reference');
+    }
+
+    public function getHasOfferAttribute()
+    {
+
+        if ($this->attributes['has_offer'] || $this->attributes['has_offer'] == 1) {
+            return 1;
+        }
+
+        return 0;
+
     }
 }

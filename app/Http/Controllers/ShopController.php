@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +20,6 @@ class ShopController extends Controller
         // return Shop::all()->toJson();
 
         $shops = Shop::has('category')->get();
-
 
 
         return $shops->toJson();
@@ -44,7 +44,6 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        //
 
         $data = $request->all();
 
@@ -80,6 +79,22 @@ class ShopController extends Controller
     {
         //
     }
+
+
+    public function getCategory($id)
+    {
+        return Category::where('category_shop_id', $id)->get();
+
+    }
+
+    public function getSummary()
+    {
+        $shops = Shop::setEagerLoads([])->withCount('products')->get();
+
+        return $shops;
+
+    }
+
 
     /**
      * Update the specified resource in storage.
