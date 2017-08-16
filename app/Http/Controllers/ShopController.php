@@ -66,7 +66,8 @@ class ShopController extends Controller
         Log::info('Showing user profile for user: ' . $shop->shop_id);
 
         //$shop->load('products','products.category','products.images');
-        return $shop->toJson();
+        $options = app('request')->header('accept-charset') == 'utf-8' ? JSON_UNESCAPED_UNICODE : null;
+        return response()->json($shop, 200, [], $options);
     }
 
     /**

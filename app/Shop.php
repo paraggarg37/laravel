@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Support\Facades\URL;
 class Shop extends Model
 {
     //
@@ -29,6 +29,11 @@ class Shop extends Model
     public function products()
     {
         return $this->hasMany('App\Product', 'product_shop_id', 'shop_id');
+    }
+
+    public function getShopLogoAttribute()
+    {
+        return URL::to('/api/shop/image/' . $this->attributes['shop_id']);
     }
 
     public function category()
