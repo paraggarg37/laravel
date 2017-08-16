@@ -41,7 +41,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env(strtoupper(env('DB_SERVICE_NAME', 'MYSQL')).'_SERVICE_HOST', env('DB_HOST', 'localhost')),
+            'host' => env('DB_HOST', '166.62.28.104'),
             'port' => env(strtoupper(env('DB_SERVICE_NAME', 'MYSQL')).'_SERVICE_PORT', env('DB_PORT', '3306')),
             'database' => env('DB_DATABASE', 'paragshop'),
             'username' => env('DB_USERNAME', 'purrx'),
@@ -56,7 +56,7 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', '166.62.28.104'),
+            'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
