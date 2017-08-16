@@ -41,7 +41,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '166.62.28.104'),
+            'host' => env('DB_HOST', '66.55.153.90'),
             'port' => env(strtoupper(env('DB_SERVICE_NAME', 'MYSQL')).'_SERVICE_PORT', env('DB_PORT', '3306')),
             'database' => env('DB_DATABASE', 'paragshop'),
             'username' => env('DB_USERNAME', 'purrx'),
