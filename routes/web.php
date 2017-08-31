@@ -39,6 +39,7 @@ Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'api'], function () {
     });
 
     Route::get('category/image/{id}', 'CategoryController@getImage');
+    Route::get('shop/image/{id}', 'ShopController@getImage');
 
 
     Route::get('shop/{id}/category', ['uses' => 'ShopController@getCategory', 'parameters' => [

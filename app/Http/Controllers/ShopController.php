@@ -6,6 +6,7 @@ use App\Category;
 use App\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 
 class ShopController extends Controller
 {
@@ -94,6 +95,16 @@ class ShopController extends Controller
 
         return $shops;
 
+    }
+
+
+    public function getImage($index)
+    {
+        $category = Shop::find($index);
+        $image = base64_decode($category->getOriginal('shop_logo'));
+        $response = Response::make($image, 200);
+        $response->header('Content-Type', 'image/png');
+        return $response;
     }
 
 
