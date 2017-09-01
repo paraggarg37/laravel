@@ -100,7 +100,6 @@ class ProductController extends Controller
             $all_images = $product->images()->getResults();
 
 
-
             foreach ($all_images as $i) {
 
                 Log::info("id is " . $i->id);
@@ -124,7 +123,6 @@ class ProductController extends Controller
         $product->save();
 
 
-
         return $product->toJson();
     }
 
@@ -136,6 +134,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return $product;
     }
 }
