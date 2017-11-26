@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Product;
 use App\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -85,8 +86,17 @@ class ShopController extends Controller
 
     public function getCategory($id)
     {
-        return Category::where('category_shop_id', $id)->get();
+        //return Category::where('category_shop_id', $id)
 
+        return Category::with(['products', 'products.images' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }])->where('category_shop_id', $id)->get();
+
+    }
+
+    public function getProduct($id)
+    {
+        return Product::where('product_shop_id', $id)->get();
     }
 
     public function getSummary()

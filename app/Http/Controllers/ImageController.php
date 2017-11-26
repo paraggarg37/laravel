@@ -52,8 +52,10 @@ class ImageController extends Controller
     public function show(Images $image)
     {
 
+        $originalImage = $image->getOriginal('image');
+        $originalImage = str_replace("data:image/png;base64,", "", $originalImage);
 
-        $image = base64_decode($image->getOriginal('image'));
+        $image = base64_decode($originalImage);
         $response = Response::make($image, 200);
         $response->header('Content-Type', 'image/png');
         return $response;

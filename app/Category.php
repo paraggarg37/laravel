@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use App\Images;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\URL;
@@ -15,7 +15,7 @@ class Category extends Model
     protected $primaryKey = 'category_id';
     protected $guarded = [];
 
-    //protected $with=['products'];
+    protected $with = ['images'];
 
     public function products()
     {
@@ -23,12 +23,18 @@ class Category extends Model
         return $this->hasMany('App\Product', 'product_category_id', 'category_id');
     }
 
-    public function getCategoryImageAttribute()
+    public function images()
+    {
+        return $this->morphMany('App\Images', 'reference');
+    }
+
+
+    /*public function getCategoryImageAttribute()
     {
 
         return URL::to('/api/category/image/' . $this->attributes['category_id']);
 
-    }
+    }*/
 
     protected $dates = ['deleted_at'];
 }

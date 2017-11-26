@@ -134,6 +134,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $all_images = $product->images()->getResults();
+        foreach ($all_images as $i) {
+            $i->delete();
+        }
         $product->delete();
         return $product;
     }

@@ -46,5 +46,9 @@ Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'api'], function () {
         'shop' => 'id'
     ]]);
 
+    Route::get('shop/{id}/product', ['uses' => 'ShopController@getProduct', 'parameters' => [
+        'shop' => 'id'
+    ]]);
+
 });
 
